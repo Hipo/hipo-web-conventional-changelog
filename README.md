@@ -1,103 +1,56 @@
-# [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage Status][coveralls-image]][coveralls-url]
+> Extends the capabilities of Angular preset of [conventional-changelog](https://github.com/conventional-changelog/conventional-changelog).
 
-> [conventional-changelog](https://github.com/ajoslin/conventional-changelog) [angular](https://github.com/angular/angular) preset
+**If you want to make changes this version of the preset, please take a look at [how-to-make-changes](how-to-make-changes.md) file.**
 
-**Issues with the convention itself should be reported on the Angular issue tracker.**
+## How to use
 
-## Angular Convention
-
-Angular's [commit message guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit).
-
-### Examples
-
-Appears under "Features" header, pencil subheader:
+* Install conventional-changelog-cli globally by running
 
 ```
-feat(pencil): add 'graphiteWidth' option
+npm install -g conventional-changelog-cli
 ```
 
-Appears under "Bug Fixes" header, graphite subheader, with a link to issue #28:
+* Install `hipo-web-conventional-changelog` package as a dev dependency to your project.
 
 ```
-fix(graphite): stop graphite breaking when width < 0.1
-
-Closes #28
+npm install hipo-web-conventional-changelog --save-dev
 ```
 
-Appears under "Performance Improvements" header, and under "Breaking Changes" with the breaking change explanation:
+* Generate a `changelog-context-variables.json` file at the root of your project and include the codebase project name for your project:
 
 ```
-perf(pencil): remove graphiteWidth option
-
-BREAKING CHANGE: The graphiteWidth option has been removed. The default graphite width of 10mm is always used for performance reason.
+{
+  "codebaseProjectName": "chroma"
+}
 ```
 
-The following commit and commit `667ecc1` do not appear in the changelog if they are under the same release. If not, the revert commit appears under the "Reverts" header.
+* Create a script for generating changelog
 
 ```
-revert: feat(pencil): add 'graphiteWidth' option
-
-This reverts commit 667ecc1654a317a13331b17617d973392f415f02.
+{
+  "changelog": "conventional-changelog --config ./node_modules/hipo-web-conventional-changelog/index.js --context ./changelog-context-variables.json -o CHANGELOG.md -r 0"
+}
 ```
 
-### Commit Message Format
+## Recommended workflow
 
-A commit message consists of a **header**, **body** and **footer**.  The header has a **type**, **scope** and **subject**:
+- Make changes
+- Commit those changes
+- Bump version in package.json
+- `npm run changelog`
+- Commit package.json and CHANGELOG.md files
+- Tag
+- Push
 
-```
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
+## Convention
 
-The **header** is mandatory and the **scope** of the header is optional.
+See Hipo web-handbook for [commit conventions](https://github.com/Hipo/web-handbook/blob/master/version-control-and-code-review.md#commit-messages).
 
-### Revert
+The following commit types will appear in the changelog:
+* feat
+* fix
+* perf
+* revert
+* refactor
 
-If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is the SHA of the commit being reverted.
-
-### Type
-
-If the prefix is `feat`, `fix` or `perf`, it will appear in the changelog. However if there is any [BREAKING CHANGE](#footer), the commit will always appear in the changelog.
-
-Other prefixes are up to your discretion. Suggested prefixes are `build`, `ci`, `docs` ,`style`, `refactor`, and `test` for non-changelog related tasks.
-
-Details regarding these types can be found in the official [Angular Contributing Guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type)
-
-### Scope
-
-The scope could be anything specifying place of the commit change. For example `$location`,
-`$browser`, `$compile`, `$rootScope`, `ngHref`, `ngClick`, `ngView`, etc...
-
-### Subject
-
-The subject contains succinct description of the change:
-
-* use the imperative, present tense: "change" not "changed" nor "changes"
-* don't capitalize first letter
-* no dot (.) at the end
-
-### Body
-
-Just as in the **subject**, use the imperative, present tense: "change" not "changed" nor "changes".
-The body should include the motivation for the change and contrast this with previous behavior.
-
-### Footer
-
-The footer should contain any information about **Breaking Changes** and is also the place to
-reference GitHub issues that this commit **Closes**.
-
-**Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines. The rest of the commit message is then used for this.
-
-A detailed explanation can be found in this [document][commit-message-format].
-
-[npm-image]: https://badge.fury.io/js/conventional-changelog-angular.svg
-[npm-url]: https://npmjs.org/package/conventional-changelog-angular
-[travis-image]: https://travis-ci.org/conventional-changelog/conventional-changelog-angular.svg?branch=master
-[travis-url]: https://travis-ci.org/conventional-changelog/conventional-changelog-angular
-[daviddm-image]: https://david-dm.org/conventional-changelog/conventional-changelog-angular.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/conventional-changelog/conventional-changelog-angular
-[coveralls-image]: https://coveralls.io/repos/conventional-changelog/conventional-changelog-angular/badge.svg
-[coveralls-url]: https://coveralls.io/r/conventional-changelog/conventional-changelog-angular
+Other commit types won't appear unless their footer includes `BREAKING CHANGES` notes.

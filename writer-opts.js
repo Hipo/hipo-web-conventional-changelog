@@ -29,8 +29,26 @@ function getWriterOpts () {
       const issues = []
 
       commit.notes.forEach(note => {
-        note.title = `BREAKING CHANGES`
-        discard = false
+        const title = note.title;
+
+        if (context.codebaseProjectName && /Related ticket/.test(title)) {
+          note.title = `RELATED TICKETS`
+          const { text } = note;
+          const codebaseTicketBase = 'https://hipo.codebasehq.com/projects/' + context.codebaseProjectName + '/tickets/';
+
+          note.text = text
+            .split(',')
+            .map(t => t.trim())
+            .map(t => {
+              const ticketNumber = t.replace(/#/g, '');
+
+              return '— ' + codebaseTicketBase + ticketNumber;
+            })
+            .join('\n')
+        } else if (/BREAKING CHANGE/.test(title)) {
+          note.title = `BREAKING CHANGES`
+          discard = false
+        }
       })
 
       if (commit.type === `feat`) {
@@ -41,14 +59,16 @@ function getWriterOpts () {
         commit.type = `Performance Improvements`
       } else if (commit.type === `revert`) {
         commit.type = `Reverts`
+      } else if (commit.type === `refactor`) {
+        commit.type = `Code Refactoring`
       } else if (discard) {
         return
+      } else if (commit.type === `chore`) {
+        commit.type = `Chores`
       } else if (commit.type === `docs`) {
         commit.type = `Documentation`
       } else if (commit.type === `style`) {
         commit.type = `Styles`
-      } else if (commit.type === `refactor`) {
-        commit.type = `Code Refactoring`
       } else if (commit.type === `test`) {
         commit.type = `Tests`
       } else if (commit.type === `build`) {

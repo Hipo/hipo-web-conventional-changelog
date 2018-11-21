@@ -4,7 +4,36 @@
 ### {{title}}
 
 {{#each notes}}
-* {{#if commit.scope}}**{{commit.scope}}:** {{/if}}{{text}}
+*{{#if commit.scope}} **{{commit.scope}}:**
+{{~/if}} {{#if commit.subject}}
+  {{~commit.subject}}
+{{~else}}
+  {{~commit.header}}
+{{~/if}}
+
+{{~!-- commit link --}} {{#if @root.linkReferences~}}
+  ([{{commit.hash}}](
+  {{~#if @root.repository}}
+    {{~#if @root.host}}
+      {{~@root.host}}/
+    {{~/if}}
+    {{~#if @root.owner}}
+      {{~@root.owner}}/
+    {{~/if}}
+    {{~@root.repository}}
+  {{~else}}
+    {{~@root.repoUrl}}
+  {{~/if}}/
+  {{~@root.commit}}/{{commit.hash}}))
+{{~else}}
+  {{~commit.hash}}
+{{~/if}}
+
+{{~!-- commit note body --}}
+<div>
+{{text}}
+</div>
+
 {{/each}}
 {{/each}}
 
