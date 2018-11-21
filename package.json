@@ -1,18 +1,19 @@
 {
-  "name": "conventional-changelog-angular",
-  "version": "5.0.2",
-  "description": "conventional-changelog angular preset",
+  "name": "hipo-web-conventional-changelog",
+  "version": "5.3.0",
+  "description": "Fork of the conventional-changelog-angular that will automate changelog generation for Hipo Web team",
   "main": "index.js",
   "scripts": {
-    "test-windows": "mocha --timeout 30000"
+    "test-windows": "mocha --timeout 30000",
+    "changelog": "conventional-changelog --config ./index.js -o CHANGELOG.md -r 0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/conventional-changelog/conventional-changelog.git"
+    "url": "https://github.com/Hipo/hipo-web-conventional-changelog"
   },
   "keywords": [
     "conventional-changelog",
-    "angular",
+    "hipo",
     "preset"
   ],
   "files": [
