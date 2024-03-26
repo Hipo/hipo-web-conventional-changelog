@@ -1,3 +1,7 @@
+# ⚠️ This repo is not actively used, and it's not maintained anymore.
+
+---
+
 > Extends the capabilities of Angular preset of [conventional-changelog](https://github.com/conventional-changelog/conventional-changelog).
 
 **If you want to make changes this version of the preset, please take a look at [how-to-make-changes](how-to-make-changes.md) file.**
